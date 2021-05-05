@@ -11,6 +11,7 @@ python-language-server = "*"
 yapf = "*"
 pyflakes = "*"
 mypy = "*"
+boto3 = "*"
 
 [requires]
 python_version = "3.9"
