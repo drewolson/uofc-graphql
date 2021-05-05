@@ -10,7 +10,7 @@ class Query(graphene.ObjectType):
     number = graphene.Int(description="A random integer")
 
     def resolve_hello(self, info):
-        return 'World'
+        return "World"
 
     def resolve_number(self, info):
         result = lambda_client.invoke(
