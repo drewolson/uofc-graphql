@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
 dir=$(pwd)
+output=$dir/.build
 rm $dir/lambda.zip
-rm $dir/requirements.txt
-rm -rf $dir/dependencies
-pipenv lock --requirements > requirements.txt
-pipenv run pip install --target ./dependencies -r ./requirements.txt
-pushd ./dependencies
+mkdir $output
+pipenv lock --requirements > $output/requirements.txt
+pipenv run pip install --target $output/dependencies -r $output/requirements.txt
+pushd $output/dependencies
 zip -r $dir/lambda.zip .
 popd
 zip -g lambda.zip $1
-rm $dir/requirements.txt
-rm -rf $dir/dependencies
