@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+graphene = "~=2.1"
+
+[dev-packages]
+python-language-server = "*"
+yapf = "*"
+pyflakes = "*"
+mypy = "*"
+
+[requires]
+python_version = "3.9"
