@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Any
+from graphql.error import format_error
 import boto3
 import graphene
 import json
@@ -33,10 +34,25 @@ lambda_client = boto3.client("lambda")
 schema = graphene.Schema(query=Query)
 
 
+def to_json(result):
+    data = result.formatted
+
+    if data.get("errors") != None:
+        data["errors"] = [format_error(error) for error in data["errors"]]
+
+    return json.dumps(data)
+
+
 def lambda_handler(event, context):
+    body = json.loads(event["body"])
+
     result = schema.execute(
-        event.get("query"),
+        body.get("query"),
         context=Context(lambda_client),
     )
 
-    return result.formatted
+    return {
+        "statusCode": 200,
+        "headers": {},
+        "body": to_json(result),
+    }
