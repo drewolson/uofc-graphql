@@ -28,15 +28,6 @@ class Query(graphene.ObjectType):
         return payload.get("number")
 
 
-def to_json(result):
-    json = {"data": result.data}
-
-    if result.errors != None:
-        json["errors"] = result.errors
-
-    return json
-
-
 lambda_client = boto3.client("lambda")
 
 schema = graphene.Schema(query=Query)
@@ -48,4 +39,4 @@ def lambda_handler(event, context):
         context=Context(lambda_client),
     )
 
-    return to_json(result)
+    return result.formatted

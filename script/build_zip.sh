@@ -10,6 +10,7 @@ dir=$(pwd)
 output=$dir/output
 build=$output/build
 rm $output/lambda.zip
+rm -rf $build
 mkdir -p $build
 pipenv lock --requirements > $build/requirements.txt
 pipenv run pip install --target $build/dependencies -r $build/requirements.txt
