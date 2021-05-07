@@ -1,19 +1,24 @@
+from dataclasses import dataclass
+from typing import Any
 import boto3
 import graphene
 import json
 
-lambda_client = boto3.client("lambda")
+
+@dataclass
+class Context:
+    lambda_client: Any
 
 
 class Query(graphene.ObjectType):
-    hello = graphene.String(description="A typical hello world")
+    ping = graphene.String(description="Pong")
     number = graphene.Int(description="A random integer")
 
-    def resolve_hello(self, info):
-        return "World"
+    def resolve_ping(self, info):
+        return "pong"
 
     def resolve_number(self, info):
-        result = lambda_client.invoke(
+        result = info.context.lambda_client.invoke(
             FunctionName="uofc-random",
             Payload="",
         )
@@ -21,9 +26,6 @@ class Query(graphene.ObjectType):
         payload = json.loads(result["Payload"].read())
 
         return payload.get("number")
-
-
-schema = graphene.Schema(query=Query)
 
 
 def to_json(result):
@@ -35,7 +37,15 @@ def to_json(result):
     return json
 
 
+lambda_client = boto3.client("lambda")
+
+schema = graphene.Schema(query=Query)
+
+
 def lambda_handler(event, context):
-    result = schema.execute(event.get("query"))
+    result = schema.execute(
+        event.get("query"),
+        context=Context(lambda_client),
+    )
 
     return to_json(result)

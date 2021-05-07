@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [ -z "$1" ]
+then
+  echo "Usage: ./script/build_zip.sh [filename]"
+  exit 1
+fi
+
 dir=$(pwd)
 output=$dir/output
 build=$output/build
