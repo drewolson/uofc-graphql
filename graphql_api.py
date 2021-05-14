@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from typing import Any
 from graphql.error import format_error
+from typing import Any
 import boto3
 import graphene
 import json
