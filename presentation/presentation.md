@@ -45,8 +45,8 @@ Suppose we have two simple services within our application:
 ## API Orchestration
 
 We can build an API Orchestration layer that provides the capabilities of each
-of these services by delegating to them in order to generate an API response to
-our user.
+of these services by delegating to them and composing their response as an API
+response to our user.
 
 ## API Orchestration
 
