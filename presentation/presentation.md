@@ -51,7 +51,11 @@ our user.
 ## API Orchestration
 
 ```plantuml
-[HTTP Request]
+skinparam dpi 300
+
+cloud {
+  () "HTTP Request"
+}
 
 [API Orchestration]
 
@@ -60,26 +64,75 @@ node services {
   [Day of the Week]
 }
 
-[HTTP Request] -down-> [API Orchestration]
+() "HTTP Request" -down-> [API Orchestration]
 [API Orchestration] -down-> [Random Number]
 [API Orchestration] -down-> [Day of the Week]
 ```
 
-# GraphQL
+## API Orchestration
 
-# AWS + API Orchestration
+Let's assume initially these "services" are just functions within our
+application (please never start with microservices). We can build this
+"orchestration layer" quite simply.
 
-## Another Slide
+## API Orchestration
 
-Some content
+Here's our `random_number` function:
+
+```{.python include=../code/orchestration/simple.py snippet=random}
+```
+
+## API Orchestration
+
+Here's our `day_of_the_week` function:
+
+```{.python include=../code/orchestration/simple.py snippet=day}
+```
+
+## API Orchestration
+
+Because this code exists locally, our API orchestration layer is very simple:
 
 . . .
 
-More after a pause
-
-## A Slide with Code
-
-```{.python include=../code/aws_demo/graphql_api.py}
+```{.python include=../code/orchestration/simple.py snippet=fastapi}
 ```
+
+## API Orchestration
+
+```
+$ curl localhost:8000
+{"number":9,"dayOfTheWeek":"Sunday"}%
+```
+
+## API Orchestration
+
+If we eventually chose to extract `random_number` and `day_of_the_week` to
+separate services, our orchestration layer gets more complicated.
+
+## API Orchestration
+
+```{.python include=../code/orchestration/complicated.py snippet=fastapi}
+```
+
+## API Orchestration
+
+Now we're making two HTTP requests to downstream services.
+
+. . .
+
+If one service call fails, the whole API request fails.
+
+. . .
+
+If either service call is expensive, we pay this penalty for every API request.
+
+## API Orchestration
+
+We can do better.
+
+# GraphQL
+
+# AWS + API Orchestration
 
 # Fin
