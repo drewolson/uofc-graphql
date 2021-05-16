@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 graphene = "==3.0b7"
+requests = "~=2.25"
 
 [dev-packages]
 python-language-server = "*"

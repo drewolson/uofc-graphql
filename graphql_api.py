@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from graphql.error import format_error
 from typing import Any
 import boto3
 import graphene
@@ -12,13 +11,20 @@ class Context:
 
 
 class Query(graphene.ObjectType):
-    ping = graphene.String(description="Pong")
-    number = graphene.Int(description="A random integer")
+    day_of_the_week = graphene.String(description="Current day of the week")
+    random_number = graphene.Int(description="A random integer")
 
-    def resolve_ping(self, info):
-        return "pong"
+    def resolve_day_of_the_week(self, info):
+        result = info.context.lambda_client.invoke(
+            FunctionName="uofc-current-time",
+            Payload="",
+        )
 
-    def resolve_number(self, info):
+        payload = json.loads(result["Payload"].read())
+
+        return payload.get("dayOfTheWeek")
+
+    def resolve_random_number(self, info):
         result = info.context.lambda_client.invoke(
             FunctionName="uofc-random",
             Payload="",
@@ -34,15 +40,6 @@ lambda_client = boto3.client("lambda")
 schema = graphene.Schema(query=Query)
 
 
-def to_json(result):
-    data = result.formatted
-
-    if data.get("errors") != None:
-        data["errors"] = [format_error(error) for error in data["errors"]]
-
-    return json.dumps(data)
-
-
 def lambda_handler(event, context):
     body = json.loads(event["body"])
 
@@ -54,5 +51,5 @@ def lambda_handler(event, context):
     return {
         "statusCode": 200,
         "headers": {},
-        "body": to_json(result),
+        "body": json.dumps(result.formatted),
     }
