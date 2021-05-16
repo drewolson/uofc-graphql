@@ -5,6 +5,15 @@ import graphene
 import json
 
 
+def call_lambda(client, function_name, request_payload={}):
+    result = client.invoke(
+        FunctionName=function_name,
+        Payload=json.dumps(request_payload),
+    )
+
+    return json.loads(result["Payload"].read())
+
+
 @dataclass
 class Context:
     lambda_client: Any
@@ -15,24 +24,14 @@ class Query(graphene.ObjectType):
     random_number = graphene.Int(description="A random integer")
 
     def resolve_day_of_the_week(self, info):
-        result = info.context.lambda_client.invoke(
-            FunctionName="uofc-current-time",
-            Payload="",
-        )
+        response = call_lambda(info.context.lambda_client, "uofc-current-time")
 
-        payload = json.loads(result["Payload"].read())
-
-        return payload.get("dayOfTheWeek")
+        return response.get("dayOfTheWeek")
 
     def resolve_random_number(self, info):
-        result = info.context.lambda_client.invoke(
-            FunctionName="uofc-random",
-            Payload="",
-        )
+        response = call_lambda(info.context.lambda_client, "uofc-random")
 
-        payload = json.loads(result["Payload"].read())
-
-        return payload.get("number")
+        return response.get("number")
 
 
 lambda_client = boto3.client("lambda")
