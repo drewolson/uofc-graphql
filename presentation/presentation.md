@@ -39,8 +39,8 @@ choose to build the service(s) that power our application.
 
 Suppose we have two simple services within our application:
 
-1. Generates a random number between 1 and 10
-2. Returns the current day of the week
+1. Generate a random number between 0 and 9
+2. Return the current day of the week
 
 ## API Orchestration
 
