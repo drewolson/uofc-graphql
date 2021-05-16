@@ -1,18 +1,33 @@
 ---
-title: My Talk
-subtitle: An Explanation
+title: API Orchestration in the Cloud
+subtitle: It's just regular API Orchestration
 date: May 24th, 2021
 author: Drew Olson
 theme: metropolis
 ---
 
+
+## About Me
+
+Hi, I'm Drew Olson
+
+* Chief Architect at GoFundMe
+* Previously Chief Architect at Braintree
+* https://drewolson.org
+
+# Agenda
+
 ## Agenda
 
-* Stuff
-* Goes
-* Here
+* API Orchestration
+* GraphQL
+* AWS + API Orchestration
 
-# New Section Slide
+# API Orchestration
+
+# GraphQL
+
+# AWS + API Orchestration
 
 ## Another Slide
 
