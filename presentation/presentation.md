@@ -133,6 +133,229 @@ We can do better.
 
 # GraphQL
 
+## GraphQL
+
+**GraphQL** is a specification for an API query language and a set of executor
+libraries written in several languages.
+
+## GraphQL
+
+**GraphQL** is *not*:
+
+* A database
+* A serialization format
+* Super complicated
+
+## GraphQL
+
+Our clients make a JSON request to our server in the following format:
+
+```json
+{
+  "query": "<graphql query>"
+}
+```
+
+## GraphQL
+
+We pass the query to an executor, which returns a response in the following
+format:
+
+```json
+{
+  "data": { ... },
+  "errors": null | [{ ... }]
+}
+```
+
+## GraphQL - Hello world
+
+We'll be using `python`'s `graphene` library to execute our GraphQL queries.
+
+## GraphQL - Hello world
+
+```{.python include=../code/graphql/simple.py snippet=query}
+```
+
+## GraphQL - Hello world
+
+And we'll use `fastapi` to accept queries via HTTP + JSON. This code never
+changes across our examples.
+
+## GraphQL - Hello world
+
+```{.python include=../code/graphql/simple.py snippet=fastapi}
+```
+
+## GraphQL - Hello world
+
+We can now make an HTTP request with the following query:
+
+```graphql
+{
+  ping
+}
+```
+
+```
+$ curl -X POST -d '{"query": "{ ping }"}' localhost:8000
+{"data":{"ping":"pong"},"errors":null}%
+```
+
+## GraphQL - Providing Arguments
+
+```{.python include=../code/graphql/args.py snippet=query}
+```
+
+## GraphQL - Providing Arguments
+
+Request:
+
+```graphql
+{
+  hello(name: "Drew")
+}
+```
+
+Response:
+
+```json
+{
+  "data": {
+    "hello":"Hello, Drew!"
+  },
+  "errors":null
+}
+```
+
+## GraphQL - Nested Fields
+
+```{.python include=../code/graphql/nested.py snippet=query}
+```
+
+## GraphQL - Nested Fields
+
+Request:
+
+```graphql
+{
+  greeting(name: "Drew") {
+    hello
+    goodbye
+  }
+}
+```
+
+## GraphQL - Our Example
+
+```{.python include=../code/graphql/demo.py snippet=helpers}
+```
+
+## GraphQL - Our Example
+
+```{.python include=../code/graphql/demo.py snippet=query}
+```
+
+## GraphQL - Our Example
+
+Request:
+
+```graphql
+{
+  randomNumber
+  dayOfTheWeek
+}
+```
+
+## GraphQL - Our Example
+
+Response:
+
+```json
+{
+  "data": {
+    "randomNumber": 6,
+    "dayOfTheWeek": "Saturday"
+  },
+  "errors": null
+}
+```
+
+## GraphQL
+
+BUT WAIT THERE'S MORE!
+
+. . .
+
+In GraphQL, the server will only resolve the **fields you ask for**. This means
+if you only ask for `randomNumber`, the server **will not** make an external
+HTTP request to fetch the current day.
+
+## GraphQL
+
+Request:
+
+```graphql
+{
+  randomNumber
+}
+```
+
+## GraphQL
+
+Response:
+
+```json
+{
+  "data": {
+    "randomNumber": 8
+  },
+  "errors": null
+}
+```
+
+## GraphQL
+
+Client-driven responses allow our orchestration layer to be far more efficient.
+We do only the work required to return the **exact fields** our client requests.
+
 # AWS + API Orchestration
 
-# Fin
+## "Cloud" Orchestration
+
+We're going to implement an orchestration layer identical to our first demo, but
+using AWS's API Gateway and Lambda.
+
+## "Cloud" Orchestration
+
+```plantuml
+skinparam dpi 300
+
+cloud {
+  () "HTTP Request"
+}
+
+[API Gateway]
+
+[GraphQL (Lambda)]
+
+node services {
+  [Random Number (Lambda)]
+  [Day of the Week (Lambda)]
+}
+
+() "HTTP Request" -down-> [API Gateway]
+[API Gateway] -down-> [GraphQL (Lambda)]
+[GraphQL (Lambda)] -down-> [Random Number (Lambda)]
+[GraphQL (Lambda)] -down-> [Day of the Week (Lambda)]
+```
+
+## "Cloud" Orchestration
+
+LIVE DEMO THAT I HOPE WON'T FAIL!
+
+## Fin
+
+Thanks! Questions?
+
+(Also you should play bridge)

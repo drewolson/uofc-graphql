@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "~=0.65"
+uvicorn = {extras = ["standard"], version = "~=0.13"}
+graphene = "==3.0b7"
+requests = "~=2.25"
+
+[dev-packages]
+python-language-server = "*"
+pyflakes = "*"
+mypy = "*"
+boto3 = "*"
+
+[requires]
+python_version = "3.9"
