@@ -394,3 +394,5 @@ LIVE DEMO THAT I HOPE WON'T FAIL!
 Thanks! Questions?
 
 (Also you should play bridge)
+
+(And learn Haskell)
