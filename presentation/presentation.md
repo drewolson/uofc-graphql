@@ -246,6 +246,22 @@ Request:
 }
 ```
 
+## GraphQL - Nested Fields
+
+Response:
+
+```json
+{
+  "data": {
+    "greeting": {
+      "hello": "Hello, Drew!",
+      "goodbye": "Goodbye, Drew!"
+    }
+  },
+  "errors": null
+}
+```
+
 ## GraphQL - Our Example
 
 ```{.python include=../code/graphql/demo.py snippet=helpers}
