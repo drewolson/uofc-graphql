@@ -319,6 +319,25 @@ Response:
 Client-driven responses allow our orchestration layer to be far more efficient.
 We do only the work required to return the **exact fields** our client requests.
 
+. . .
+
+This is especially important if each of our fields is resolved by calling
+another service.
+
+## GraphQL
+
+GraphQL also gives us **partial responses** for free.
+
+. . .
+
+This means that if we fail to resolve one of our fields but succeed in resolving
+a second, we will send the client the data we were able to resolve and an error
+representing the failure.
+
+. . .
+
+A single resolution failure **does not** fail the whole request.
+
 # AWS + API Orchestration
 
 ## "Cloud" Orchestration
