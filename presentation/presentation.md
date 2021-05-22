@@ -389,10 +389,22 @@ node services {
 
 LIVE DEMO THAT I HOPE WON'T FAIL!
 
-## Fin
+## Wrap Up
 
-Thanks! Questions?
+Final points:
 
-(Also you should play bridge)
+* GraphQL is great for API orchestration
 
-(And learn Haskell)
+. . .
+
+* Presentation and code -- https://github.com/drewolson/uofc-graphql
+
+. . .
+
+* You should learn to play bridge
+
+. . .
+
+* You should learn Haskell
+
+# Thanks! Questions?
