@@ -32,6 +32,6 @@ def index():
         "dayOfTheWeek": requests
                     .get("http://day-of-the-week.service")
                     .json()
-                    .get("number"),
+                    .get("dayOfTheWeek"),
     }
 # end snippet fastapi
