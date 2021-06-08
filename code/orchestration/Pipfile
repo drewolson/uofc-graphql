@@ -7,6 +7,7 @@ name = "pypi"
 fastapi = "~=0.65"
 uvicorn = {extras = ["standard"], version = "~=0.13"}
 requests = "~=2.25"
+urllib3 = ">=1.26.5"
 
 [dev-packages]
 python-language-server = "*"
